@@ -5,8 +5,8 @@ library(sandwich)
 library(lmtest)
 
 ## Read data with SUC, ACE consumption and other explanatory factors
-test <- read_excel("test.xlsx")
-names(test)
+dataset <- read_excel("test.xlsx")
+names(dataset)
 
 ## log-linear regression model+ Z-score + HC3 (heteroskedasticity-consistent standard errors)
 fit_log_linear <- function(data, outcome, covariates, keep_fit = FALSE) {
@@ -97,7 +97,7 @@ cov_suc <- c("aged.60","high",
              "AQI_GDR")
 
 
-res_suc <- fit_log_linear(test, outcome = "SUC", covariates = cov_suc)
+res_suc <- fit_log_linear(dataset, outcome = "SUC", covariates = cov_suc)
 
 print(res_suc)
 ##ACE model
@@ -106,7 +106,7 @@ cov_ace <- c("aged.60","high",
              "D.income.percapita","pop.density",
              "AQI_GDR")
 
-res_ace <- fit_log_linear(test, outcome = "ACE", covariates = cov_ace)
+res_ace <- fit_log_linear(dataset, outcome = "ACE", covariates = cov_ace)
 
 print(res_ace)
 
@@ -394,8 +394,8 @@ partial_effect_curve <- function(fit_obj, focal,
 
 covs <- c("aged.60","high","D.income.percapita","AQI_GDR","college.above","pop.density")
 
-fit_suc <- fit_log_linear(test, outcome = "SUC", covariates = covs, keep_fit = TRUE)
-fit_ace <- fit_log_linear(test, outcome = "ACE", covariates = covs, keep_fit = TRUE)
+fit_suc <- fit_log_linear(dataset, outcome = "SUC", covariates = covs, keep_fit = TRUE)
+fit_ace <- fit_log_linear(dataset, outcome = "ACE", covariates = covs, keep_fit = TRUE)
 
 # take AQI_GDR as example
 pe_suc <- partial_effect_curve(fit_suc, focal = "AQI_GDR", x_axis = "raw", y_scale = "CR")
